@@ -1,0 +1,23 @@
+[
+  {
+    "LocalObservationDateTime": "2017-06-28T14:55:00+02:00",
+    "EpochTime": 1498654500,
+    "WeatherText": "Mostly cloudy",
+    "WeatherIcon": 6,
+    "IsDayTime": true,
+    "Temperature": {
+      "Metric": {
+        "Value": 27.2,
+        "Unit": "C",
+        "UnitType": 17
+      },
+      "Imperial": {
+        "Value": 81,
+        "Unit": "F",
+        "UnitType": 18
+      }
+    },
+    "MobileLink": "http://m.accuweather.com/en/it/mestre/216517/current-weather/216517?lang=en-us",
+    "Link": "http://www.accuweather.com/en/it/mestre/216517/current-weather/216517?lang=en-us"
+  }
+]
