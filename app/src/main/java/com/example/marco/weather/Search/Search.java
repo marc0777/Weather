@@ -1,8 +1,12 @@
-package com.example.marco.weather;
+package com.example.marco.weather.Search;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -12,15 +16,17 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
+
+import com.example.marco.weather.R;
+import com.example.marco.weather.Tool.*;
+
+import java.util.HashMap;
 
 public class Search extends Fragment {
 
-    EditText emailText;
-    ListView responseView;
-    final String savedResult = "[\n" +
+    private View view;
+    private ListView listView;
+    private final String savedResult = "[\n" +
             "  {\n" +
             "    \"Version\": 1,\n" +
             "    \"Key\": \"216517\",\n" +
@@ -152,44 +158,94 @@ public class Search extends Fragment {
             "    ]\n" +
             "  }\n" +
             "]";
+    private CitiesParser searchResult;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.activity_search, container, false);
+        view = inflater.inflate(R.layout.activity_search, container, false);
 
-        responseView = (ListView) v.findViewById(R.id.result_list);
-        emailText = (EditText) v.findViewById(R.id.searchBox);
+        listView = (ListView) view.findViewById(R.id.search_list);
 
-        Button queryButton = (Button) v.findViewById(R.id.queryButton);
+        Button queryButton = (Button) view.findViewById(R.id.queryButton);
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
 
-                /*Cities list = null;
-                try {
-                    list = new Cities(new DataRetriever().execute("locations/v1/cities/search","q="+emailText.getText().toString()).get(), getContext());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }*/
-                final Cities list = new Cities(savedResult, getContext());
+            /*try {
+                EditText searchBox = (EditText) view.findViewById(R.id.searchBox);
+                searchResult = new CitiesParser(new DataRetriever().execute("locations/v1/cities/search","q="+searchBox.getText().toString()).get());
+            } catch (Exception e) {
+               searchResult = null;
+            }*/
 
-                ListAdapter adapter = new SimpleAdapter(
-                        getContext(), list.getCities(),
-                        R.layout.list_item, new String[]{"name", "country"}, new int[]{R.id.city,
-                        R.id.country});
-                responseView.setAdapter(adapter);
+            searchResult = new CitiesParser(savedResult);
 
-                responseView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View view,int position, long id){
-                        Toast.makeText(getContext(), list.getCities().get(position).get("id"), Toast.LENGTH_SHORT).show();
-                    }
-                });
+            ListAdapter adapter = new SimpleAdapter(
+                getContext(), searchResult.getParsedCities(),
+                R.layout.list_item, new String[]{"name", "country"}, new int[]{R.id.list_item_city,
+                R.id.list_item_country});
+            listView.setAdapter(adapter);
+
+            registerForContextMenu(listView);
+
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                public void onItemClick(AdapterView<?> parent, View view,int position, long id){
+                    viewWeather(Integer.parseInt(getCity(position).get("id")));
+                }
+            });
 
             }
         });
 
-        return v;
+        return view;
     }
 
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
+        int position = info.position;
+
+        switch (item.getItemId()) {
+            case R.id.search_view:
+                return viewWeather(Integer.parseInt(getCity(position).get("id")));
+            case R.id.search_save:
+                return saveLocation(getCity(position));
+            case R.id.search_delete:
+                return deleteLocation(getCity(position));
+            default:
+                return super.onContextItemSelected(item);
+        }
+    }
+    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, view, menuInfo);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.menu_search, menu);
+        boolean itemSaved = Storage.isPresent(getCity(((AdapterView.AdapterContextMenuInfo) menuInfo).position));
+        menu.getItem(1).setVisible(!itemSaved);
+        menu.getItem(2).setVisible(itemSaved);
+    }
+
+    public boolean viewWeather (int id) {
+        Snackbar.make(view.findViewById(R.id.search_activity), Integer.toString(id), Snackbar.LENGTH_SHORT).show();
+        return false;
+    }
+
+    public boolean saveLocation (HashMap<String,String> city) {
+        Storage.addCity(city);
+        snackbar(city.get("name") + " saved to Locations!");
+        return false;
+    }
+    public boolean deleteLocation (HashMap<String,String> city) {
+        Storage.removeCity(city);
+        snackbar(city.get("name")+" has been deleted!");
+        return false;
+    }
+    private void snackbar (String message) {
+        Snackbar.make(view.findViewById(R.id.search_activity), message, Snackbar.LENGTH_SHORT).show();
+    }
+    private HashMap<String,String> getCity (int position) {
+        return searchResult.getParsedCities().get(position);
+    }
 }

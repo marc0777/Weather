@@ -25,17 +25,17 @@
         </activity>
 
         <activity
-            android:name=".Search"
+            android:name=".Search.Search"
             android:label="Search"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".Locations"
+            android:name=".Locations.Locations"
             android.label="Locations"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".Weather"
+            android:name=".Weather.Weather"
             android.label="Weather"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

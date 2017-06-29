@@ -1,17 +1,16 @@
-package com.example.marco.weather;
+package com.example.marco.weather.Tool;
 
 import android.os.AsyncTask;
-import android.view.View;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-class DataRetriever extends AsyncTask<String, Void, String> {
+public class DataRetriever extends AsyncTask<String, Void, String> {
 
-    static final String API_KEY = "KPG9Olkd338PiKKvGTcURXdjc6sRPIfr";
-    static final String API_URL = "http://dataservice.accuweather.com/";
+    private static final String API_KEY = "KPG9Olkd338PiKKvGTcURXdjc6sRPIfr";
+    private static final String API_URL = "http://dataservice.accuweather.com/";
 
     protected void onPreExecute() {
     }

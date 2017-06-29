@@ -1,4 +1,4 @@
-package com.example.marco.weather;
+package com.example.marco.weather.Tool;
 
 import io.realm.RealmObject;
 
@@ -28,10 +28,7 @@ public class City extends RealmObject {
         this.name = name;
     }
 
-    public String getCountry() {
-
-        return country;
-    }
+    public String getCountry() {return country;}
 
     public void setCountry(String country) {
         this.country = country;
@@ -45,7 +42,8 @@ public class City extends RealmObject {
         this.updateTime = updateTime;
     }
 
-    public void setUpdateTime(String updateTime) {
-        this.updateTime = Integer.parseInt(updateTime);
+    @Override
+    public boolean equals(Object obj) {
+        return id==((City)obj).id;
     }
 }

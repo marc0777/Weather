@@ -12,6 +12,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.marco.weather.Locations.Locations;
+import com.example.marco.weather.Search.Search;
+import com.example.marco.weather.Weather.Weather;
+
+import io.realm.Realm;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
@@ -19,6 +25,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (savedInstanceState == null) {
+            setFragment(Weather.class);
+        }
+
+        Realm.init(this);
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -28,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.getMenu().getItem(0).setChecked(true);
         navigationView.setNavigationItemSelectedListener(this);
 
     }
@@ -52,24 +64,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        Fragment fragment = null;
-        Class fragmentClass;
 
         switch (item.getItemId()) {
             case R.id.nav_search:
-                fragmentClass = Search.class;
+                setFragment(Search.class);
                 break;
             case R.id.nav_locations:
-                fragmentClass = Locations.class;
+                setFragment(Locations.class);
                 break;
             case R.id.nav_weather:
-                fragmentClass = Weather.class;
-                break;
-            default:
-                fragmentClass = Weather.class;
+                setFragment(Weather.class);
                 break;
         }
 
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    private void setFragment(Class fragmentClass) {
+        Fragment fragment = null;
         try {
             fragment = (Fragment) fragmentClass.newInstance();
         } catch (Exception e) {
@@ -77,11 +91,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+        fragmentManager.beginTransaction().replace(R.id.fragment, fragment).commit();
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
 }
