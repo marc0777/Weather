@@ -16,8 +16,6 @@ import com.example.marco.weather.R;
 import com.example.marco.weather.Tool.City;
 import com.example.marco.weather.Tool.Storage;
 
-import java.util.HashMap;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 

@@ -25,7 +25,7 @@
         </activity>
 
         <activity
-            android:name=".Search.Search"
+            android:name=".Search.SearchFragment"
             android:label="Search"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
@@ -35,7 +35,7 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".Weather.Weather"
+            android:name=".Weather.WeatherFragment"
             android.label="Weather"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>

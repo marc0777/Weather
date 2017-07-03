@@ -13,8 +13,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.marco.weather.Locations.Locations;
-import com.example.marco.weather.Search.Search;
-import com.example.marco.weather.Weather.Weather;
+import com.example.marco.weather.Search.SearchFragment;
+import com.example.marco.weather.Weather.WeatherFragment;
 
 import io.realm.Realm;
 
@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
 
         if (savedInstanceState == null) {
-            setFragment(Weather.class);
+            setFragment(WeatherFragment.class);
         }
 
         Realm.init(this);
@@ -67,13 +67,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item.getItemId()) {
             case R.id.nav_search:
-                setFragment(Search.class);
+                setFragment(SearchFragment.class);
                 break;
             case R.id.nav_locations:
                 setFragment(Locations.class);
                 break;
             case R.id.nav_weather:
-                setFragment(Weather.class);
+                setFragment(WeatherFragment.class);
                 break;
         }
 

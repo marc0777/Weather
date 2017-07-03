@@ -1,6 +1,5 @@
 package com.example.marco.weather.Weather;
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,75 +8,39 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.marco.weather.R;
+import com.example.marco.weather.Tool.City;
 
+import io.realm.Realm;
 
 public class CityWeather extends Fragment {
 
-    /**
-     * Key to insert the background color into the mapping of a Bundle.
-     */
-    private static final String BACKGROUND_COLOR = "color";
+    private int position;
 
-    /**
-     * Key to insert the index page into the mapping of a Bundle.
-     */
-    private static final String INDEX = "index";
-
-    private int color;
-    private int index;
-
-    /**
-     * Instances a new fragment with a background color and an index page.
-     *
-     * @param color
-     *            background color
-     * @param index
-     *            index page
-     * @return a new page
-     */
-    public static CityWeather newInstance(int color, int index) {
-
-        // Instantiate a new fragment
+    public static CityWeather newInstance(int position) {
+        Bundle args = new Bundle();
+        args.putInt("position",position);
         CityWeather fragment = new CityWeather();
-
-        // Save the parameters
-        Bundle bundle = new Bundle();
-        bundle.putInt(BACKGROUND_COLOR, color);
-        bundle.putInt(INDEX, index);
-        fragment.setArguments(bundle);
-        fragment.setRetainInstance(true);
-
+        fragment.setArguments(args);
         return fragment;
-
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Load parameters when the initial creation of the fragment is done
-        this.color = (getArguments() != null) ? getArguments().getInt(
-                BACKGROUND_COLOR) : Color.GRAY;
-        this.index = (getArguments() != null) ? getArguments().getInt(INDEX)
-                : -1;
+        position = getArguments().getInt("position");
 
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        City city = Realm.getDefaultInstance().where(City.class).findAll().get(position);
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(
-                R.layout.fragment_screen_slide_page, container, false);
+        WeatherProvider.update();
 
-        // Show the current page index in the view
-        TextView tvIndex = (TextView) rootView.findViewById(R.id.tvIndex);
-        tvIndex.setText(String.valueOf(this.index));
-
-        // Change the background color
-        rootView.setBackgroundColor(this.color);
-
-        return rootView;
-
+        View view = inflater.inflate(R.layout.fragment_screen_slide_page, container, false);
+        TextView textView = (TextView) view;
+        textView.setText("City ID: " + city.getId() + "\nCity name: "+ city.getName() + "\nCity country: " + city.getCountry() + "\nActual weather: " + city.getForecast(0).getDayText());
+        return view;
     }
 }

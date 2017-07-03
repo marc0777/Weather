@@ -1,12 +1,17 @@
 package com.example.marco.weather.Tool;
 
+import java.util.ArrayList;
+
+import io.realm.RealmList;
 import io.realm.RealmObject;
 
 public class City extends RealmObject {
+
     private int id;
     private String name;
     private String country;
-    private int updateTime;
+    private long updateTime;
+    private RealmList<Weather> forecast = new RealmList<>();
 
     public int getId() {
         return id;
@@ -34,16 +39,24 @@ public class City extends RealmObject {
         this.country = country;
     }
 
-    public int getUpdateTime() {
+    public long getUpdateTime() {
         return updateTime;
     }
 
-    public void setUpdateTime(int updateTime) {
+    public void setUpdateTime(long updateTime) {
         this.updateTime = updateTime;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        return id==((City)obj).id;
+    public Weather getForecast (int date) {
+        return forecast.get(date);
     }
+    public void addForecast (Weather weather) {
+        forecast.add(weather);
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other != null && (other == this || other instanceof City && id == ((City) other).id);
+    }
+
 }

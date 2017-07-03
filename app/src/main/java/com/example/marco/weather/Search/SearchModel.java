@@ -1,32 +1,21 @@
 package com.example.marco.weather.Search;
 
-import android.os.Bundle;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.view.ContextMenu;
-import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
+import com.example.marco.weather.Tool.City;
+import com.example.marco.weather.Tool.DataRetriever;
 
-import android.widget.AdapterView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-import android.widget.Button;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 
-import com.example.marco.weather.R;
-import com.example.marco.weather.Tool.*;
 
-import java.util.HashMap;
+class SearchModel {
 
-public class Search extends Fragment {
 
-    private View view;
-    private ListView listView;
-    private final String savedResult = "[\n" +
+    private final static String savedResult = "[\n" +
             "  {\n" +
             "    \"Version\": 1,\n" +
             "    \"Key\": \"216517\",\n" +
@@ -158,94 +147,40 @@ public class Search extends Fragment {
             "    ]\n" +
             "  }\n" +
             "]";
-    private CitiesParser searchResult;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    static List<City> getSearchResult(String query) {
+        return parseJson(savedResult);
+    }
 
-        view = inflater.inflate(R.layout.activity_search, container, false);
-
-        listView = (ListView) view.findViewById(R.id.search_list);
-
-        Button queryButton = (Button) view.findViewById(R.id.queryButton);
-        queryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            /*try {
-                EditText searchBox = (EditText) view.findViewById(R.id.searchBox);
-                searchResult = new CitiesParser(new DataRetriever().execute("locations/v1/cities/search","q="+searchBox.getText().toString()).get());
-            } catch (Exception e) {
-               searchResult = null;
-            }*/
-
-            searchResult = new CitiesParser(savedResult);
-
-            ListAdapter adapter = new SimpleAdapter(
-                getContext(), searchResult.getParsedCities(),
-                R.layout.list_item, new String[]{"name", "country"}, new int[]{R.id.list_item_city,
-                R.id.list_item_country});
-            listView.setAdapter(adapter);
-
-            registerForContextMenu(listView);
-
-
-            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                public void onItemClick(AdapterView<?> parent, View view,int position, long id){
-                    viewWeather(Integer.parseInt(getCity(position).get("id")));
-                }
-            });
-
+    private static List<City> parseJson (String json) {
+        List<City> parsedJson = new ArrayList<>();
+        try {
+            JSONArray jsonCities = new JSONArray(json);
+            for (int i = 0; i < jsonCities.length(); i++) {
+                parsedJson.add(jsonToCity(jsonCities.getJSONObject(i)));
             }
-        });
-
-        return view;
+        } catch (final JSONException ignored) {}
+        return parsedJson;
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        int position = info.position;
-
-        switch (item.getItemId()) {
-            case R.id.search_view:
-                return viewWeather(Integer.parseInt(getCity(position).get("id")));
-            case R.id.search_save:
-                return saveLocation(getCity(position));
-            case R.id.search_delete:
-                return deleteLocation(getCity(position));
-            default:
-                return super.onContextItemSelected(item);
+    private static String getJson (String query) {
+        String json = "[]";
+        try {
+            json = new DataRetriever().execute("locations/v1/cities/search","q="+query).get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
         }
-    }
-    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, view, menuInfo);
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.menu_search, menu);
-        boolean itemSaved = Storage.isPresent(getCity(((AdapterView.AdapterContextMenuInfo) menuInfo).position));
-        menu.getItem(1).setVisible(!itemSaved);
-        menu.getItem(2).setVisible(itemSaved);
+        return json;
     }
 
-    public boolean viewWeather (int id) {
-        Snackbar.make(view.findViewById(R.id.search_activity), Integer.toString(id), Snackbar.LENGTH_SHORT).show();
-        return false;
-    }
+    private static City jsonToCity (JSONObject json) throws JSONException {
 
-    public boolean saveLocation (HashMap<String,String> city) {
-        Storage.addCity(city);
-        snackbar(city.get("name") + " saved to Locations!");
-        return false;
-    }
-    public boolean deleteLocation (HashMap<String,String> city) {
-        Storage.removeCity(city);
-        snackbar(city.get("name")+" has been deleted!");
-        return false;
-    }
-    private void snackbar (String message) {
-        Snackbar.make(view.findViewById(R.id.search_activity), message, Snackbar.LENGTH_SHORT).show();
-    }
-    private HashMap<String,String> getCity (int position) {
-        return searchResult.getParsedCities().get(position);
+        City temp = new City();
+
+        temp.setId(json.getString("Key"));
+        temp.setName(json.getString("LocalizedName"));
+        temp.setCountry(json.getJSONObject("Country").getString("LocalizedName"));
+
+        return temp;
     }
 }
