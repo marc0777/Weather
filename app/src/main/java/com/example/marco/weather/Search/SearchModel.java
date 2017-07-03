@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 
@@ -149,7 +150,7 @@ class SearchModel {
             "]";
 
     static List<City> getSearchResult(String query) {
-        return parseJson(savedResult);
+        return parseJson(getJson(query));
     }
 
     private static List<City> parseJson (String json) {
@@ -166,7 +167,7 @@ class SearchModel {
     private static String getJson (String query) {
         String json = "[]";
         try {
-            json = new DataRetriever().execute("locations/v1/cities/search","q="+query).get();
+            json = new DataRetriever().execute("locations/v1/cities/search","q="+query+"&language="+Locale.getDefault().toString().toLowerCase().replace("_","-")).get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }

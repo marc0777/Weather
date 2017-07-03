@@ -10,6 +10,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 import io.realm.Realm;
@@ -197,7 +198,7 @@ class WeatherProvider {
 
     private static void updateCity (City city) {
         try {
-            JSONArray jsonForecast = new JSONObject(savedResult).getJSONArray("DailyForecasts");
+            JSONArray jsonForecast = new JSONObject( getJson(city.getId()) ).getJSONArray("DailyForecasts");
             for (int i = 0; i < 5; i++) {
                 JSONObject dayForecast = jsonForecast.getJSONObject(i);
                 city.addForecast(jsonToWeather(dayForecast));
@@ -225,10 +226,10 @@ class WeatherProvider {
         return weather;
     }
 
-    private static String getJson (String id) {
+    private static String getJson (int id) {
         String json = "[]";
         try {
-            json = new DataRetriever().execute("forecasts/v1/daily/5day/"+id,"language=en-us"+"&"+"metric=true").get();
+            json = new DataRetriever().execute("forecasts/v1/daily/5day/"+id,"language="+ Locale.getDefault().toString().toLowerCase().replace("_","-")+"&"+"metric=true").get();
         } catch (InterruptedException | ExecutionException e) {
             e.printStackTrace();
         }

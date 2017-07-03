@@ -5,15 +5,15 @@
         <item
             android:id="@+id/nav_weather"
             android:icon="@drawable/ic_menu_weather"
-            android:title="Weather" />
+            android:title="@string/weather" />
         <item
             android:id="@+id/nav_locations"
             android:icon="@drawable/ic_menu_location"
-            android:title="Locations" />
+            android:title="@string/locations" />
         <item
             android:id="@+id/nav_search"
             android:icon="@drawable/ic_menu_search"
-            android:title="Search" />
+            android:title="@string/search" />
     </group>
 
 </menu>
