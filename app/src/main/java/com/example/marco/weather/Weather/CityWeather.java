@@ -36,11 +36,11 @@ public class CityWeather extends Fragment {
                              Bundle savedInstanceState) {
         City city = Realm.getDefaultInstance().where(City.class).findAll().get(position);
 
-        WeatherProvider.update();
+        WeatherModel.update();
 
         View view = inflater.inflate(R.layout.fragment_screen_slide_page, container, false);
         TextView textView = (TextView) view;
-        textView.setText("City ID: " + city.getId() + "\nCity name: "+ city.getName() + "\nCity country: " + city.getCountry() + "\nActual weather: " + city.getForecast(0).getDayText());
+        //textView.setText("City ID: " + city.getId() + "\nCity name: "+ city.getName() + "\nCity country: " + city.getCountry() + "\nActual weather: " + city.getForecast(0).getDayText());
         return view;
     }
 }

@@ -1,6 +1,12 @@
 package com.example.marco.weather.Tool;
 
+import com.google.gson.*;
+import com.google.gson.annotations.SerializedName;
+
+import java.lang.reflect.Type;
+
 import io.realm.RealmObject;
+import io.realm.RealmList;
 
 public class Weather extends RealmObject{
 
@@ -74,5 +80,32 @@ public class Weather extends RealmObject{
 
     public void setMaxT(String maxT) {
         this.minT = Float.parseFloat(maxT);
+    }
+
+    public String toString() {
+        return "Weather: "+dayText+"\nTemperature: "+maxT;
+    }
+
+    public static class WeatherDeserializer implements JsonDeserializer<Weather> {
+        @Override
+        public Weather deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            JsonObject jsonObject = json.getAsJsonObject();
+
+            Weather weather = new Gson().fromJson(json, Weather.class);
+
+            JsonObject temp = jsonObject.getAsJsonObject("Temperature");
+            weather.setMinT(temp.getAsJsonObject("Minimum").get("Value").getAsString());
+            weather.setMaxT(temp.getAsJsonObject("Maximum").get("Value").getAsString());
+
+            temp = jsonObject.getAsJsonObject("Day");
+            weather.setDayIcon(temp.get("Icon").getAsString());
+            weather.setDayText(temp.get("IconPhrase").getAsString());
+
+            temp = jsonObject.getAsJsonObject("Night");
+            weather.setNightIcon(temp.get("Icon").getAsString());
+            weather.setNightText(temp.get("IconPhrase").getAsString());
+
+            return weather;
+        }
     }
 }

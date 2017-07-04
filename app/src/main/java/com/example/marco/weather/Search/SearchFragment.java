@@ -21,10 +21,18 @@ import android.widget.SimpleAdapter;
 
 import com.example.marco.weather.R;
 import com.example.marco.weather.Tool.*;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
 import io.realm.OrderedRealmCollection;
+import io.realm.RealmList;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SearchFragment extends Fragment {
 
@@ -45,17 +53,29 @@ public class SearchFragment extends Fragment {
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                searchResult = SearchModel.getSearchResult(searchBox.getText().toString());
 
-                ListAdapter adapter = new SearchAdapter(getContext(), searchResult);
+                getAPI().searchCities(searchBox.getText().toString(), Utils.getLocale()).enqueue(new Callback<RealmList<City>>() {
+                    @Override
+                    public void onResponse(Call<RealmList<City>> call, Response<RealmList<City>> response) {
 
-                listView.setAdapter(adapter);
-                registerForContextMenu(listView);
+                        searchResult = response.body();
+
+                        ListAdapter adapter = new SearchAdapter(getContext(), searchResult);
+
+                        listView.setAdapter(adapter);
+                        registerForContextMenu(listView);
 
 
-                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    public void onItemClick(AdapterView<?> parent, View view,int position, long id){
-                        viewWeather(getCity(position).getId());
+                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                            public void onItemClick(AdapterView<?> parent, View view,int position, long id){
+                                viewWeather(getCity(position).getId());
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onFailure(Call<RealmList<City>> call, Throwable t) {
+
                     }
                 });
 
@@ -110,5 +130,19 @@ public class SearchFragment extends Fragment {
     }
     private City getCity (int position) {
         return searchResult.get(position);
+    }
+
+
+    private static AccuweatherAPI getAPI() {
+        Gson gson = new GsonBuilder()
+                .setLenient().registerTypeAdapter(City.class, new City.CityDeserializer())
+                .create();
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(AccuweatherAPI.BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+
+        return retrofit.create(AccuweatherAPI.class);
     }
 }
