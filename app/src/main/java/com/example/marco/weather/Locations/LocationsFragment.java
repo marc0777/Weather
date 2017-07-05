@@ -75,11 +75,11 @@ public class LocationsFragment extends Fragment {
         realm.close();
     }
 
-    public boolean viewWeather (int id) {
+    private boolean viewWeather(int id) {
         Snackbar.make(view.findViewById(R.id.search_activity), Integer.toString(id), Snackbar.LENGTH_SHORT).show();
         return false;
     }
-    public boolean deleteLocation (City city) {
+    private boolean deleteLocation(City city) {
         String name = city.getName();
         Storage.removeCity(city);
         snackbar(name+" has been deleted!");

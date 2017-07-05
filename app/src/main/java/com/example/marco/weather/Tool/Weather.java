@@ -1,12 +1,10 @@
 package com.example.marco.weather.Tool;
 
 import com.google.gson.*;
-import com.google.gson.annotations.SerializedName;
 
 import java.lang.reflect.Type;
 
 import io.realm.RealmObject;
-import io.realm.RealmList;
 
 public class Weather extends RealmObject{
 
@@ -21,7 +19,7 @@ public class Weather extends RealmObject{
         return dayText;
     }
 
-    public void setDayText(String dayText) {
+    private void setDayText(String dayText) {
         this.dayText = dayText;
     }
 
@@ -33,7 +31,7 @@ public class Weather extends RealmObject{
         this.dayIcon = dayIcon;
     }
 
-    public void setDayIcon(String dayIcon) {
+    private void setDayIcon(String dayIcon) {
         this.dayIcon = Integer.parseInt(dayIcon);
     }
 
@@ -41,7 +39,7 @@ public class Weather extends RealmObject{
         return nightText;
     }
 
-    public void setNightText(String nightText) {
+    private void setNightText(String nightText) {
         this.nightText = nightText;
     }
 
@@ -53,7 +51,7 @@ public class Weather extends RealmObject{
         this.nightIcon = nightIcon;
     }
 
-    public void setNightIcon(String nightIcon) {
+    private void setNightIcon(String nightIcon) {
         this.dayIcon = Integer.parseInt(nightIcon);
     }
 
@@ -65,7 +63,7 @@ public class Weather extends RealmObject{
         this.minT = minT;
     }
 
-    public void setMinT(String minT) {
+    private void setMinT(String minT) {
         this.minT = Float.parseFloat(minT);
     }
 
@@ -78,7 +76,7 @@ public class Weather extends RealmObject{
         this.maxT = maxT;
     }
 
-    public void setMaxT(String maxT) {
+    private void setMaxT(String maxT) {
         this.minT = Float.parseFloat(maxT);
     }
 

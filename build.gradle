@@ -8,7 +8,7 @@ buildscript {
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         classpath "io.realm:realm-gradle-plugin:3.4.0"
-        classpath "net.rdrei.android.buildtimetracker:gradle-plugin:0.9.+"
+        classpath "net.rdrei.android.buildtimetracker:gradle-plugin:0.9.0"
 
     }
 }

@@ -11,13 +11,13 @@ public class City extends RealmObject {
     private String name;
     private String country;
     private long updateTime;
-    private RealmList<Weather> forecast = new RealmList<>();
+    private final RealmList<Weather> forecast = new RealmList<>();
 
     public int getId() {
         return id;
     }
 
-    public void setId(int id) {
+    private void setId(int id) {
         this.id = id;
     }
 
@@ -29,13 +29,13 @@ public class City extends RealmObject {
         return name;
     }
 
-    public void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
     public String getCountry() {return country;}
 
-    public void setCountry(String country) {
+    private void setCountry(String country) {
         this.country = country;
     }
 

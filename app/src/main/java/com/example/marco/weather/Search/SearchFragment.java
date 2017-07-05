@@ -12,13 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import android.widget.Button;
-import android.widget.SimpleAdapter;
 
 import com.example.marco.weather.R;
 import com.example.marco.weather.Tool.*;
@@ -27,8 +25,6 @@ import com.google.gson.GsonBuilder;
 
 import java.util.List;
 
-import io.realm.OrderedRealmCollection;
-import io.realm.RealmList;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -105,17 +101,17 @@ public class SearchFragment extends Fragment {
         menu.getItem(2).setVisible(itemSaved);
     }
 
-    public boolean viewWeather (int id) {
+    private boolean viewWeather(int id) {
         Snackbar.make(view.findViewById(R.id.search_activity), Integer.toString(id), Snackbar.LENGTH_SHORT).show();
         return false;
     }
 
-    public boolean saveLocation (City city) {
+    private boolean saveLocation(City city) {
         Storage.addCity(city);
         snackbar(city.getName() + " saved to LocationsFragment!");
         return false;
     }
-    public boolean deleteLocation (City city) {
+    private boolean deleteLocation(City city) {
         Storage.removeCity(city);
         snackbar(city.getName()+" has been deleted!");
         return false;
