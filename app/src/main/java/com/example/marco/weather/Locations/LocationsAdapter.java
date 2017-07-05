@@ -12,7 +12,7 @@ import com.example.marco.weather.Tool.City;
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmBaseAdapter;
 
-public class CitiesAdapter extends RealmBaseAdapter<City> implements ListAdapter {
+public class LocationsAdapter extends RealmBaseAdapter<City> implements ListAdapter {
 
 
     private static class ViewHolder {
@@ -20,7 +20,7 @@ public class CitiesAdapter extends RealmBaseAdapter<City> implements ListAdapter
         TextView country;
     }
 
-    CitiesAdapter(OrderedRealmCollection<City> realmResults) {
+    LocationsAdapter(OrderedRealmCollection<City> realmResults) {
         super(realmResults);
     }
 

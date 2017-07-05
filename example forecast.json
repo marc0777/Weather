@@ -1,0 +1,162 @@
+http://dataservice.accuweather.com/forecasts/v1/daily/5day/216517?apikey=KPG9Olkd338PiKKvGTcURXdjc6sRPIfr&metric=true
+
+{
+  "Headline": {
+    "EffectiveDate": "2017-07-01T08:00:00+02:00",
+    "EffectiveEpochDate": 1498888800,
+    "Severity": 4,
+    "Text": "Pleasant Saturday",
+    "Category": "",
+    "EndDate": null,
+    "EndEpochDate": null,
+    "MobileLink": "http://m.accuweather.com/en/it/mestre/216517/extended-weather-forecast/216517?unit=c&lang=en-us",
+    "Link": "http://www.accuweather.com/en/it/mestre/216517/daily-weather-forecast/216517?unit=c&lang=en-us"
+  },
+  "DailyForecasts": [
+    {
+      "Date": "2017-06-30T07:00:00+02:00",
+      "EpochDate": 1498798800,
+      "Temperature": {
+        "Minimum": {
+          "Value": 15.9,
+          "Unit": "C",
+          "UnitType": 17
+        },
+        "Maximum": {
+          "Value": 24.7,
+          "Unit": "C",
+          "UnitType": 17
+        }
+      },
+      "Day": {
+        "Icon": 16,
+        "IconPhrase": "Mostly cloudy w/ t-storms"
+      },
+      "Night": {
+        "Icon": 7,
+        "IconPhrase": "Cloudy"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/en/it/mestre/216517/daily-weather-forecast/216517?day=1&unit=c&lang=en-us",
+      "Link": "http://www.accuweather.com/en/it/mestre/216517/daily-weather-forecast/216517?day=1&unit=c&lang=en-us"
+    },
+    {
+      "Date": "2017-07-01T07:00:00+02:00",
+      "EpochDate": 1498885200,
+      "Temperature": {
+        "Minimum": {
+          "Value": 18.2,
+          "Unit": "C",
+          "UnitType": 17
+        },
+        "Maximum": {
+          "Value": 25,
+          "Unit": "C",
+          "UnitType": 17
+        }
+      },
+      "Day": {
+        "Icon": 6,
+        "IconPhrase": "Mostly cloudy"
+      },
+      "Night": {
+        "Icon": 34,
+        "IconPhrase": "Mostly clear"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/en/it/mestre/216517/daily-weather-forecast/216517?day=2&unit=c&lang=en-us",
+      "Link": "http://www.accuweather.com/en/it/mestre/216517/daily-weather-forecast/216517?day=2&unit=c&lang=en-us"
+    },
+    {
+      "Date": "2017-07-02T07:00:00+02:00",
+      "EpochDate": 1498971600,
+      "Temperature": {
+        "Minimum": {
+          "Value": 18.9,
+          "Unit": "C",
+          "UnitType": 17
+        },
+        "Maximum": {
+          "Value": 26.6,
+          "Unit": "C",
+          "UnitType": 17
+        }
+      },
+      "Day": {
+        "Icon": 6,
+        "IconPhrase": "Mostly cloudy"
+      },
+      "Night": {
+        "Icon": 34,
+        "IconPhrase": "Mostly clear"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/en/it/mestre/216517/daily-weather-forecast/216517?day=3&unit=c&lang=en-us",
+      "Link": "http://www.accuweather.com/en/it/mestre/216517/daily-weather-forecast/216517?day=3&unit=c&lang=en-us"
+    },
+    {
+      "Date": "2017-07-03T07:00:00+02:00",
+      "EpochDate": 1499058000,
+      "Temperature": {
+        "Minimum": {
+          "Value": 20.5,
+          "Unit": "C",
+          "UnitType": 17
+        },
+        "Maximum": {
+          "Value": 27.6,
+          "Unit": "C",
+          "UnitType": 17
+        }
+      },
+      "Day": {
+        "Icon": 2,
+        "IconPhrase": "Mostly sunny"
+      },
+      "Night": {
+        "Icon": 35,
+        "IconPhrase": "Partly cloudy"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/en/it/mestre/216517/daily-weather-forecast/216517?day=4&unit=c&lang=en-us",
+      "Link": "http://www.accuweather.com/en/it/mestre/216517/daily-weather-forecast/216517?day=4&unit=c&lang=en-us"
+    },
+    {
+      "Date": "2017-07-04T07:00:00+02:00",
+      "EpochDate": 1499144400,
+      "Temperature": {
+        "Minimum": {
+          "Value": 21.3,
+          "Unit": "C",
+          "UnitType": 17
+        },
+        "Maximum": {
+          "Value": 27.3,
+          "Unit": "C",
+          "UnitType": 17
+        }
+      },
+      "Day": {
+        "Icon": 2,
+        "IconPhrase": "Mostly sunny"
+      },
+      "Night": {
+        "Icon": 34,
+        "IconPhrase": "Mostly clear"
+      },
+      "Sources": [
+        "AccuWeather"
+      ],
+      "MobileLink": "http://m.accuweather.com/en/it/mestre/216517/daily-weather-forecast/216517?day=5&unit=c&lang=en-us",
+      "Link": "http://www.accuweather.com/en/it/mestre/216517/daily-weather-forecast/216517?day=5&unit=c&lang=en-us"
+    }
+  ]
+}

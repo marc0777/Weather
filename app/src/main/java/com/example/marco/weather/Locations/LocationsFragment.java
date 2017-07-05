@@ -20,7 +20,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class Locations extends Fragment {
+public class LocationsFragment extends Fragment {
     private View view;
     private Realm realm;
 
@@ -33,7 +33,7 @@ public class Locations extends Fragment {
         realm = Realm.getDefaultInstance();
 
         RealmResults<City> cities = realm.where(City.class).findAll();
-        CitiesAdapter adapter = new CitiesAdapter(cities);
+        LocationsAdapter adapter = new LocationsAdapter(cities);
 
         listView.setAdapter(adapter);
         registerForContextMenu(listView);

@@ -3,6 +3,7 @@ package com.example.marco.weather.Search;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -44,44 +45,38 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.activity_search, container, false);
-
         listView = (ListView) view.findViewById(R.id.search_list);
 
-        Button queryButton = (Button) view.findViewById(R.id.queryButton);
+        final Button queryButton = (Button) view.findViewById(R.id.queryButton);
         final EditText searchBox = (EditText) view.findViewById(R.id.searchBox);
 
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                getAPI().searchCities(searchBox.getText().toString(), Utils.getLocale()).enqueue(new Callback<RealmList<City>>() {
+                getAPI().searchCities(searchBox.getText().toString(), Utils.getLocale()).enqueue(new Callback<List<City>>() {
                     @Override
-                    public void onResponse(Call<RealmList<City>> call, Response<RealmList<City>> response) {
-
+                    public void onResponse(Call<List<City>> call, Response<List<City>> response) {
                         searchResult = response.body();
-
-                        ListAdapter adapter = new SearchAdapter(getContext(), searchResult);
-
-                        listView.setAdapter(adapter);
-                        registerForContextMenu(listView);
-
-
-                        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                            public void onItemClick(AdapterView<?> parent, View view,int position, long id){
-                                viewWeather(getCity(position).getId());
-                            }
-                        });
+                        if (searchResult!=null) {
+                            ListAdapter adapter = new SearchAdapter(getContext(), searchResult);
+                            listView.setAdapter(adapter);
+                            registerForContextMenu(listView);
+                            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    viewWeather(getCity(position).getId());
+                                }
+                            });
+                        }
+                        else Log.e("Network: ","Unauthorized");
                     }
-
                     @Override
-                    public void onFailure(Call<RealmList<City>> call, Throwable t) {
+                    public void onFailure(Call<List<City>> call, Throwable t) {
 
                     }
                 });
 
             }
         });
-
         return view;
     }
 
@@ -117,7 +112,7 @@ public class SearchFragment extends Fragment {
 
     public boolean saveLocation (City city) {
         Storage.addCity(city);
-        snackbar(city.getName() + " saved to Locations!");
+        snackbar(city.getName() + " saved to LocationsFragment!");
         return false;
     }
     public boolean deleteLocation (City city) {

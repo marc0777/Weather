@@ -1,7 +1,5 @@
 package com.example.marco.weather.Tool;
 
-import java.util.HashMap;
-
 import io.realm.Realm;
 
 public class Storage {
@@ -10,15 +8,6 @@ public class Storage {
             @Override
             public void execute(Realm realm) {
                 realm.copyToRealm(city);
-            }
-        });
-    }
-
-    public static void updateCity (final City city) {
-        Realm.getDefaultInstance().executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.copyToRealmOrUpdate(city);
             }
         });
     }

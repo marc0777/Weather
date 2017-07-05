@@ -12,7 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.example.marco.weather.Locations.Locations;
+import com.example.marco.weather.Locations.LocationsFragment;
 import com.example.marco.weather.Search.SearchFragment;
 import com.example.marco.weather.Weather.WeatherFragment;
 
@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 setFragment(SearchFragment.class);
                 break;
             case R.id.nav_locations:
-                setFragment(Locations.class);
+                setFragment(LocationsFragment.class);
                 break;
             case R.id.nav_weather:
                 setFragment(WeatherFragment.class);
