@@ -1,4 +1,4 @@
-package com.example.marco.weather.Tool;
+package com.example.marco.weather.Data;
 
 import com.google.gson.*;
 

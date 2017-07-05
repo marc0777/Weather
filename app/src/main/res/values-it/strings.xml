@@ -3,7 +3,6 @@
     <string name="app_name">Weather</string>
     <string name="action_settings">Impostazioni</string>
     <string name="delete_location">Rimuovi luogo</string>
-    <string name="enter_city_name">Inserisci il nome della città</string>
     <string name="locations">Luoghi</string>
     <string name="navigation_drawer_close">Chiudi il navigation drawer</string>
     <string name="navigation_drawer_open">Apri il navigation drawer</string>
@@ -11,4 +10,7 @@
     <string name="search">Cerca</string>
     <string name="view_location">Guarda</string>
     <string name="weather">Meteo</string>
+    <string name="enter_location_name">Inserisci il nome della città</string>
+    <string name="location_saved">è stata salvata!</string>
+    <string name="location_deleted">è stata cancellata!</string>
 </resources>

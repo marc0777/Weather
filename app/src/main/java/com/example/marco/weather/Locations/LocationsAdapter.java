@@ -7,21 +7,20 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 
 import com.example.marco.weather.R;
-import com.example.marco.weather.Tool.City;
+import com.example.marco.weather.Data.Location;
 
 import io.realm.OrderedRealmCollection;
 import io.realm.RealmBaseAdapter;
 
-class LocationsAdapter extends RealmBaseAdapter<City> implements ListAdapter {
-
+class LocationsAdapter extends RealmBaseAdapter<Location> implements ListAdapter {
 
     private static class ViewHolder {
         TextView name;
         TextView country;
     }
 
-    LocationsAdapter(OrderedRealmCollection<City> realmResults) {
-        super(realmResults);
+    LocationsAdapter(LocationsViewModel viewModel) {
+        super((OrderedRealmCollection<Location>) viewModel.getLocations());
     }
 
     @Override
@@ -39,7 +38,7 @@ class LocationsAdapter extends RealmBaseAdapter<City> implements ListAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         if (adapterData != null) {
-            final City item = adapterData.get(position);
+            final Location item = adapterData.get(position);
             viewHolder.name.setText(item.getName());
             viewHolder.country.setText(item.getCountry());
         }

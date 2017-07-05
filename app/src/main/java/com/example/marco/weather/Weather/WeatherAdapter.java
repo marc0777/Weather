@@ -4,22 +4,17 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.example.marco.weather.Tool.City;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
-
 class WeatherAdapter extends FragmentStatePagerAdapter {
-    private final RealmResults<City> cities;
+    WeatherViewModel viewModel;
 
-    WeatherAdapter(FragmentManager fm) {
+    WeatherAdapter(FragmentManager fm, WeatherViewModel viewModel) {
         super(fm);
-        cities = Realm.getDefaultInstance().where(City.class).findAll();
+        this.viewModel = viewModel;
     }
 
     @Override
     public int getCount() {
-        return cities.size();
+        return viewModel.getLocationsNumber();
     }
 
     @Override
@@ -29,6 +24,6 @@ class WeatherAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return cities.get(position).getName();
+        return viewModel.getLocation(position).getName();
     }
 }

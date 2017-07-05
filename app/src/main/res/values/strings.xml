@@ -11,5 +11,7 @@
     <string name="weather">Weather</string>
     <string name="locations">Locations</string>
     <string name="search">Search</string>
-    <string name="enter_city_name">Enter city name</string>
+    <string name="enter_location_name">Enter location name</string>
+    <string name="location_deleted">has been deleted!</string>
+    <string name="location_saved">has been saved!</string>
 </resources>

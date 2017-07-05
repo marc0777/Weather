@@ -8,13 +8,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.marco.weather.R;
-import com.example.marco.weather.Tool.City;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class CityWeatherFragment extends Fragment {
-
+    private WeatherViewModel viewModel;
     private int position;
 
     public static CityWeatherFragment newInstance(int position) {
@@ -29,20 +25,21 @@ public class CityWeatherFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt("position");
+        viewModel = new WeatherViewModel();
 
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_screen_slide_page, container, false);
 
-        final View view = inflater.inflate(R.layout.fragment_screen_slide_page, container, false);
-        final TextView textView = (TextView) view;
-
-        final RealmResults<City> cities = Realm.getDefaultInstance().where(City.class).findAll();
-        City city = cities.get(position);
-
-        textView.setText("City ID: " + city.getId() + "\nCity name: "+ city.getName() + "\nCity country: " + city.getCountry() + "\nActual weather: " + city.getForecast(0).getDayText());
+        TextView textView = (TextView) view;
+        textView.setText(getWeather());
 
         return view;
+    }
+
+    private String getWeather() {
+        return viewModel.getWeather(position);
     }
 }

@@ -27,9 +27,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         if (savedInstanceState == null) {
             setFragment(WeatherFragment.class);
+            Realm.init(this);
         }
-
-        Realm.init(this);
         Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

@@ -8,18 +8,17 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.marco.weather.R;
-import com.example.marco.weather.Tool.City;
+import com.example.marco.weather.Data.Location;
 
-import java.util.List;
+class SearchAdapter extends ArrayAdapter<Location> {
 
-class SearchAdapter extends ArrayAdapter<City> {
-    SearchAdapter(Context context, List<City> users) {
-        super(context, 0, users);
+    SearchAdapter(Context context, SearchViewModel viewModel) {
+        super(context, 0, viewModel.getResult());
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        City city = getItem(position);
+        Location city = getItem(position);
 
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);

@@ -1,17 +1,17 @@
-package com.example.marco.weather.Tool;
+package com.example.marco.weather.Data;
 
 import com.google.gson.*;
 import java.lang.reflect.Type;
 import io.realm.RealmList;
 import io.realm.RealmObject;
 
-public class City extends RealmObject {
+public class Location extends RealmObject {
 
     private int id;
     private String name;
     private String country;
     private long updateTime;
-    private final RealmList<Weather> forecast = new RealmList<>();
+    private RealmList<Weather> forecast = new RealmList<>();
 
     public int getId() {
         return id;
@@ -57,23 +57,23 @@ public class City extends RealmObject {
 
     @Override
     public boolean equals(Object other) {
-        return other != null && (other == this || other instanceof City && id == ((City) other).id);
+        return other != null && (other == this || other instanceof Location && id == ((Location) other).id);
     }
     @Override
     public String toString() {
         return name+"\n"+country+"\n"+id+"\n";
     }
 
-    public static class CityDeserializer implements JsonDeserializer<City> {
+    public static class CityDeserializer implements JsonDeserializer<Location> {
 
         @Override
-        public City deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            City city = new Gson().fromJson(json, City.class);
+        public Location deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            Location location = new Gson().fromJson(json, Location.class);
             JsonObject jsonObject = json.getAsJsonObject();
-            city.setId(jsonObject.get("Key").getAsInt());
-            city.setName(jsonObject.get("LocalizedName").getAsString());
-            city.setCountry(jsonObject.getAsJsonObject("Country").get("LocalizedName").getAsString());
-            return city;
+            location.setId(jsonObject.get("Key").getAsInt());
+            location.setName(jsonObject.get("LocalizedName").getAsString());
+            location.setCountry(jsonObject.getAsJsonObject("Country").get("LocalizedName").getAsString());
+            return location;
         }
     }
 }
