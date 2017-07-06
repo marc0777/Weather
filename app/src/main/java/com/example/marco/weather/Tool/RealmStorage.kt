@@ -2,7 +2,6 @@ package com.example.marco.weather.Tool
 
 import com.example.marco.weather.Data.Forecast
 import com.example.marco.weather.Data.Location
-import com.example.marco.weather.Data.Weather
 
 import io.realm.Realm
 

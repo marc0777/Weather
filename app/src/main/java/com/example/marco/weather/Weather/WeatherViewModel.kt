@@ -6,7 +6,6 @@ import android.widget.TextView
 import com.example.marco.weather.Data.Forecast
 import com.example.marco.weather.Data.Location
 import com.example.marco.weather.Tool.RealmStorage
-import com.example.marco.weather.Tool.Storage
 import com.example.marco.weather.Tool.Utils
 
 import java.io.IOException

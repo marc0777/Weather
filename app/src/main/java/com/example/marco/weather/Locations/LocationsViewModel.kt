@@ -2,7 +2,6 @@ package com.example.marco.weather.Locations
 
 import com.example.marco.weather.Data.Location
 import com.example.marco.weather.Tool.RealmStorage
-import com.example.marco.weather.Tool.Storage
 
 internal class LocationsViewModel {
     private val storage = RealmStorage()
