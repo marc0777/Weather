@@ -1,6 +1,9 @@
 package com.example.marco.weather.Search;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 
 import com.example.marco.weather.Data.Location;
 import com.example.marco.weather.Tool.RealmStorage;
@@ -31,7 +34,7 @@ class SearchViewModel {
     }
 
     String saveLocation(int position) {
-        Location location = storage.getLocation(position);
+        Location location = searchResult.get(position);
         storage.addLocation(location);
         return location.getName();
     }
@@ -47,13 +50,17 @@ class SearchViewModel {
         return storage.getLocation(position).getForecast(0).toString();
     }
 
-    void search(String query) {
-        Call call = Utils.getSearchAPI().searchCities(query, Utils.getLocale());
+    void search(String query, final Context context, final ListView listView) {
+        Call call = Utils.INSTANCE.getSearchAPI().searchCities(query, Utils.INSTANCE.getLocale());
+        final SearchViewModel viewModel = this;
         call.enqueue(new Callback<List<Location>>() {
             @Override
             public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
                 if (response.isSuccessful()) {
                     searchResult = response.body();
+                    ListAdapter adapter = new SearchAdapter(context, viewModel);
+                    listView.setAdapter(adapter);
+
                 }
                 else {
                     try {

@@ -39,9 +39,7 @@ public class SearchFragment extends Fragment {
         queryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                viewModel.search(searchBox.getText().toString());
-                ListAdapter adapter = new SearchAdapter(getContext(), viewModel);
-                listView.setAdapter(adapter);
+                viewModel.search(searchBox.getText().toString(), getContext(),listView);
                 registerForContextMenu(listView);
                 listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

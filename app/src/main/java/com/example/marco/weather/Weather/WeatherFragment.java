@@ -25,8 +25,6 @@ public class WeatherFragment extends Fragment {
         TabLayout tabLayout = (TabLayout) view.findViewById(R.id.weather_tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        viewModel.updateWeather();
-
         return view;
     }
 }
