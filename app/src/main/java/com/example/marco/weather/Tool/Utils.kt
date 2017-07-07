@@ -2,13 +2,10 @@ package com.example.marco.weather.Tool
 
 import com.example.marco.weather.Data.Location
 import com.example.marco.weather.Data.Weather
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-
-import java.util.Locale
-
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.*
 
 object Utils {
 

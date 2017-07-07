@@ -1,18 +1,13 @@
 package com.example.marco.weather.Search
 
-import android.content.Context
 import android.util.Log
-import android.widget.ListView
-
 import com.example.marco.weather.Data.Location
 import com.example.marco.weather.Tool.RealmStorage
 import com.example.marco.weather.Tool.Utils
-
-import java.io.IOException
-
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.IOException
 import java.util.*
 
 internal class SearchViewModel {
@@ -40,8 +35,7 @@ internal class SearchViewModel {
     }
 
     fun search(query: String, adapter: SearchAdapter) {
-        val call = Utils.searchAPI.searchCities(query, Utils.locale)
-        call.enqueue(object : Callback<List<Location>> {
+        Utils.searchAPI.searchCities(query, Utils.locale).enqueue(object : Callback<List<Location>> {
             override fun onResponse(call: Call<List<Location>>, response: Response<List<Location>>) {
                 if (response.isSuccessful) {
                     result = response.body()!!
@@ -53,10 +47,8 @@ internal class SearchViewModel {
                     } catch (e: IOException) {
                         e.printStackTrace()
                     }
-
                 }
             }
-
             override fun onFailure(call: Call<List<Location>>, t: Throwable) {
 
             }

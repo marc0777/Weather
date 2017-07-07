@@ -29,3 +29,4 @@
 -dontwarn retrofit2.**
 -dontwarn java.nio.**
 -dontwarn java.lang.invoke.**
+-dontwarn com.example.marco.weather.**
