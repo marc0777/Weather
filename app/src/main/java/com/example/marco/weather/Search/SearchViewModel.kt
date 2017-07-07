@@ -16,7 +16,7 @@ import retrofit2.Response
 import java.util.*
 
 internal class SearchViewModel {
-    var result: List<Location> = ArrayList<Location>()
+    var result: List<Location> = ArrayList()
     private val storage = RealmStorage()
 
     fun isLocationSaved(position: Int): Boolean {
@@ -39,16 +39,14 @@ internal class SearchViewModel {
         return storage.getLocation(position).getForecastAt(0).toString()
     }
 
-    fun search(query: String, context: Context, listView: ListView) {
+    fun search(query: String, adapter: SearchAdapter) {
         val call = Utils.searchAPI.searchCities(query, Utils.locale)
-        val viewModel = this
         call.enqueue(object : Callback<List<Location>> {
             override fun onResponse(call: Call<List<Location>>, response: Response<List<Location>>) {
                 if (response.isSuccessful) {
                     result = response.body()!!
-                    val adapter = SearchAdapter(context, viewModel)
-                    listView.adapter = adapter
-
+                    adapter.clear()
+                    adapter.addAll(result)
                 } else {
                     try {
                         Log.e("Network: ", response.errorBody()!!.string())

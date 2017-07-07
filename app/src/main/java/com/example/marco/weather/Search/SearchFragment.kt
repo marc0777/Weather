@@ -23,30 +23,29 @@ class SearchFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        viewModel
-
         val view = inflater.inflate(R.layout.activity_search, container, false)
-        val listView = view.findViewById(R.id.search_list) as ListView
+        val listView = view.findViewById(R.id.list) as ListView
         val queryButton = view.findViewById(R.id.queryButton) as Button
         val searchBox = view.findViewById(R.id.searchBox) as EditText
+        val adapter = SearchAdapter(context, viewModel)
+        listView.adapter = adapter
+        registerForContextMenu(listView)
+        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ -> viewWeather(position) }
 
         queryButton.setOnClickListener {
-            viewModel.search(searchBox.text.toString(), context, listView)
-            registerForContextMenu(listView)
-            listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ -> viewWeather(position) }
+            viewModel.search(searchBox.text.toString(),adapter)
         }
 
         return view
     }
 
-    override fun onContextItemSelected(item: MenuItem?): Boolean {
-        val info = item!!.menuInfo as AdapterView.AdapterContextMenuInfo
-        val position = info.position
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
 
         return when (item.itemId) {
-            R.id.search_view -> viewWeather(position)
-            R.id.search_save -> saveLocation(position)
-            R.id.search_delete -> deleteLocation(position)
+            R.id.search_view -> viewWeather(info.position)
+            R.id.search_save -> saveLocation(info.position)
+            R.id.search_delete -> deleteLocation(info.position)
             else -> super.onContextItemSelected(item)
         }
     }
