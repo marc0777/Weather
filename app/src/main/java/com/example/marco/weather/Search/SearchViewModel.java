@@ -18,7 +18,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 class SearchViewModel {
-    private List<Location> searchResult;
+    private List<Location> result;
     private Storage storage;
 
     SearchViewModel () {
@@ -26,15 +26,15 @@ class SearchViewModel {
     }
 
     boolean isLocationSaved (int position) {
-        return storage.isLocationPresent(searchResult.get(position).getId());
+        return storage.isLocationPresent(result.get(position).getId());
     }
 
     List<Location> getResult() {
-        return searchResult;
+        return result;
     }
 
     String saveLocation(int position) {
-        Location location = searchResult.get(position);
+        Location location = result.get(position);
         storage.addLocation(location);
         return location.getName();
     }
@@ -50,16 +50,14 @@ class SearchViewModel {
         return storage.getLocation(position).getForecast(0).toString();
     }
 
-    void search(String query, final Context context, final ListView listView) {
-        Call call = Utils.INSTANCE.getSearchAPI().searchCities(query, Utils.INSTANCE.getLocale());
-        final SearchViewModel viewModel = this;
-        call.enqueue(new Callback<List<Location>>() {
+    void search(String query, final SearchAdapter adapter) {
+        Utils.getSearchAPI().searchCities(query, Utils.getLocale()).enqueue(new Callback<List<Location>>() {
             @Override
             public void onResponse(Call<List<Location>> call, Response<List<Location>> response) {
                 if (response.isSuccessful()) {
-                    searchResult = response.body();
-                    ListAdapter adapter = new SearchAdapter(context, viewModel);
-                    listView.setAdapter(adapter);
+                    result = response.body();
+                    adapter.clear();
+                    adapter.addAll(result);
 
                 }
                 else {

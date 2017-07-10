@@ -11,7 +11,6 @@ import com.example.marco.weather.R;
 
 public class CityWeatherFragment extends Fragment {
     private WeatherViewModel viewModel;
-    TextView textView;
     private int position;
 
     public static CityWeatherFragment newInstance(int position) {
@@ -19,6 +18,7 @@ public class CityWeatherFragment extends Fragment {
         args.putInt("position",position);
         CityWeatherFragment fragment = new CityWeatherFragment();
         fragment.setArguments(args);
+        fragment.viewModel = new WeatherViewModel();
         return fragment;
     }
 
@@ -26,17 +26,13 @@ public class CityWeatherFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         position = getArguments().getInt("position");
-        viewModel = new WeatherViewModel();
-
     }
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_screen_slide_page, container, false);
-        textView = (TextView) view;
-
+        TextView textView = (TextView) view;
         viewModel.setWeather(position, textView);
-
         return view;
     }
 }

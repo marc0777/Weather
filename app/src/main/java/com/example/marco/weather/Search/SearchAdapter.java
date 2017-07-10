@@ -5,31 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
 
-import com.example.marco.weather.R;
 import com.example.marco.weather.Data.Location;
+import com.example.marco.weather.databinding.ListItemBinding;
 
 class SearchAdapter extends ArrayAdapter<Location> {
-
+    private Context context;
     SearchAdapter(Context context, SearchViewModel viewModel) {
         super(context, 0, viewModel.getResult());
+        this.context=context;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Location city = getItem(position);
-
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item, parent, false);
-        }
-
-        TextView cityName = (TextView) convertView.findViewById(R.id.list_item_city);
-        TextView countryName = (TextView) convertView.findViewById(R.id.list_item_country);
-
-        cityName.setText(city.getName());
-        countryName.setText(city.getCountry());
-
-        return convertView;
+        ListItemBinding binding = ListItemBinding.inflate(LayoutInflater.from(context), parent, false);
+        binding.setLocation(getItem(position));
+        return binding.getRoot();
     }
 }

@@ -32,7 +32,7 @@ class WeatherViewModel {
     void setWeather(final int position, final TextView textView) {
         final Location location = getLocation(position);
         if (System.currentTimeMillis() - location.getUpdateTime() > 300000) {
-            Utils.INSTANCE.getForecastAPI().getForecast(location.getId(), Utils.INSTANCE.getLocale()).enqueue(new retrofit2.Callback<Forecast>() {
+            Utils.getForecastAPI().getForecast(location.getId(), Utils.getLocale()).enqueue(new retrofit2.Callback<Forecast>() {
                 @Override
                 public void onResponse(Call<Forecast> call, Response<Forecast> response) {
                     if (response.isSuccessful()) {

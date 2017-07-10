@@ -21,10 +21,6 @@ public class Location extends RealmObject {
         this.id = id;
     }
 
-    public void setId(String id) {
-        this.id = Integer.parseInt(id);
-    }
-
     public String getName() {
         return name;
     }
